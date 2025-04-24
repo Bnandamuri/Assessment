@@ -22,7 +22,35 @@ GROUP BY p.BRAND
 ORDER BY Receipts_Scanned DESC;
 
 ---
+## 1. 🏆 Top 5 Sales by Brands Among Users (Account ≥ 6 Months)
+This query finds the top 5 brands by total sales, filtered to include only users who have been active for at least 6 months (based on difference between account creation and purchase date).
 
-**## 2.  Top 5 Brands by Receipts Scanned (Age ≥ 21)**
+```-- Calculating total sales per brand and ranking them
+WITH BrandSales AS (
+    SELECT
+        p.BRAND            AS Brand,        -- Product brand
+   -- Sum of all sales for that brand
+		SUM(t.FINAL_SALE)  AS Total_Sales,  -- Total sales per brand
+	-- Ranking of brands by sales 
+        ROW_NUMBER()
+          OVER (ORDER BY SUM(t.FINAL_SALE) DESC) AS ranks
+    FROM dbo.transactions_cleaned AS t
+    INNER JOIN dbo.users_cleaned    AS u
+        ON t.USER_ID = u.ID
+    INNER JOIN dbo.products_cleaned AS p
+        ON t.BARCODE = p.BARCODE
+    WHERE
+    -- Filtering out the null sales and ensuring user has had account ≥ 6 months
+		t.FINAL_SALE IS NOT NULL
+        AND DATEDIFF(MONTH, u.CREATED_DATE, t.PURCHASE_DATE) >= 6
+    GROUP BY
+        p.BRAND
+)
+SELECT
+    Brand,
+    Total_Sales
+FROM BrandSales
+WHERE ranks <= 5
+ORDER BY Total_Sales DESC;
 
 
