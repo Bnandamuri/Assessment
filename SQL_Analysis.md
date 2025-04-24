@@ -20,7 +20,7 @@ JOIN dbo.products_cleaned p
 	-- Filtering out the users who are 21 and over. 
 WHERE DATEDIFF(YEAR, u.BIRTH_DATE, GETDATE()) >= 21
 GROUP BY p.BRAND
-ORDER BY Receipts_Scanned DESC;
+ORDER BY Receipts_Scanned DESC
 
 ---
 **## 2. 🧬 Health & Wellness Sales Percentage by Generation
