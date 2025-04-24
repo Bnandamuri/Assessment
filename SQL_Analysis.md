@@ -21,4 +21,7 @@ WHERE DATEDIFF(YEAR, u.BIRTH_DATE, GETDATE()) >= 21
 GROUP BY p.BRAND
 ORDER BY Receipts_Scanned DESC;
 
+---
 
+# SQL
+rdscx 
