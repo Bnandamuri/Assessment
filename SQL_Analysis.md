@@ -22,6 +22,3 @@ GROUP BY p.BRAND
 ORDER BY Receipts_Scanned DESC;
 
 ---
-
-# SQL
-rdscx 
