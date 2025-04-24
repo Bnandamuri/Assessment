@@ -21,8 +21,7 @@ WHERE DATEDIFF(YEAR, u.BIRTH_DATE, GETDATE()) >= 21
 GROUP BY p.BRAND
 ORDER BY Receipts_Scanned DESC;
 
----
-****## 2. Top 5 Sales by Brands Among Users (Account ≥ 6 Months)**
+## 2. Top 5 Sales by Brands Among Users (Account ≥ 6 Months)**
 **This query finds the top 5 brands by total sales, filtered to include only users who have been active for at least 6 months (based on the difference between account creation and purchase date).
 
 ```-- Calculating total sales per brand and ranking them
@@ -52,5 +51,4 @@ SELECT
 FROM BrandSales
 WHERE ranks <= 5
 ORDER BY Total_Sales DESC;
-
-
+---
