@@ -22,6 +22,7 @@ GROUP BY p.BRAND
 ORDER BY Receipts_Scanned DESC;
 
 ---
-## 2. ## 1. Top 5 Brands by Receipts Scanned (Age ≥ 21)
+
+**## 2.  Top 5 Brands by Receipts Scanned (Age ≥ 21)**
 
 
