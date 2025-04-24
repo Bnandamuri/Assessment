@@ -1,4 +1,4 @@
-# SQL Analysis: Fetch Dataset Insights
+# SQL Analysis: Fetch Dataset Insights(Closed Ended Questions)
 
 This file contains annotated SQL queries used to analyze the Fetch Takehome dataset. All queries were developed and tested using ****SQL Server Management Studio (SSMS).****
 
