@@ -6,7 +6,7 @@
    SECTION 1 – CLOSED-ENDED QUERIES
    ============================ */
 
-/* 1. Top 5 brands by receipts scanned among users 21+ */
+* 1. Top 5 brands by receipts scanned among users 21+ *
 -- 
 SELECT TOP 5
     p.BRAND,
