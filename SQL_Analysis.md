@@ -1,6 +1,6 @@
 # SQL Analysis: Fetch Dataset Insights
 
-This file contains annotated SQL queries used to analyze the Fetch Takehome dataset. All queries were developed and tested using **SQL Server Management Studio (SSMS)**.
+This file contains annotated SQL queries used to analyze the Fetch Takehome dataset. All queries were developed and tested using** ****SQL Server Management Studio (SSMS)**.****
 
 ---
 
