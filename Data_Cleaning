@@ -1,0 +1,48 @@
+# Data Cleaning Process, Performed using Power Query within Power BI#
+
+#Cleaning of Users' Data
+let
+    Source = Csv.Document(File.Contents("C:\Users\surya\Downloads\USER_TAKEHOME.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers", 
+                        {{"ID", type text}, 
+                        {"CREATED_DATE", type datetime}, 
+                        {"BIRTH_DATE", type datetime}, 
+                        {"STATE", type text}, 
+                        {"LANGUAGE", type text}, 
+                        {"GENDER", type text}}),
+    #"Replaced Value" = Table.ReplaceValue(#"Changed Type","","Unknown",Replacer.ReplaceValue,{"STATE"}),
+    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","","Unknown",Replacer.ReplaceValue,{"GENDER"}),
+    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","","Unknown",Replacer.ReplaceValue,{"LANGUAGE"}),
+    #"Filtered Rows" = Table.SelectRows(#"Replaced Value2", each ([BIRTH_DATE] <> null)),
+    #"Trimmed Text" = Table.TransformColumns(#"Filtered Rows",{{"ID", Text.Trim, type text}, {"STATE", Text.Trim, type text}, {"LANGUAGE", Text.Trim, type text}, {"GENDER", Text.Trim, type text}})
+in
+    #"Trimmed Text"
+
+#Cleaning of Transactions Data 
+
+let
+    Source = Csv.Document(File.Contents("C:\Users\surya\Downloads\TRANSACTION_TAKEHOME.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PURCHASE_DATE", type datetime}, {"RECEIPT_ID", type text}, {"SCAN_DATE", type datetime}, {"STORE_NAME", type text}, {"USER_ID", type text}, {"BARCODE", Int64.Type}, {"FINAL_QUANTITY", type number}, {"FINAL_SALE", type number}}),
+    #"Replaced Errors" = Table.ReplaceErrorValues(#"Changed Type", {{"FINAL_QUANTITY", 0}}),
+    #"Filtered Rows" = Table.SelectRows(#"Replaced Errors", each ([BARCODE] <> null and [BARCODE] <> -1)),
+    #"Trimmed Text" = Table.TransformColumns(#"Filtered Rows",{{"RECEIPT_ID", Text.Trim, type text}, {"STORE_NAME", Text.Trim, type text}}),
+    #"Changed Type1" = Table.TransformColumnTypes(#"Trimmed Text",{{"BARCODE", Int64.Type}})
+in
+    #"Changed Type1"
+
+#Cleaning of Products Data
+
+let
+    Source = Csv.Document(File.Contents("C:\Users\surya\Downloads\PRODUCTS_TAKEHOME.csv"),[Delimiter=",", Columns=7, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"CATEGORY_1", type text}, {"CATEGORY_2", type text}, {"CATEGORY_3", type text}, {"CATEGORY_4", type text}, {"MANUFACTURER", type text}, {"BRAND", type text}, {"BARCODE", Int64.Type}}),
+    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each ([BARCODE] <> null)),
+    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows","","Unspecified",Replacer.ReplaceValue,{"CATEGORY_3", "CATEGORY_4"}),
+    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","","Unknown",Replacer.ReplaceValue,{"MANUFACTURER", "BRAND"}),
+    #"Filtered Rows1" = Table.SelectRows(#"Replaced Value1", each [CATEGORY_1] <> null and [CATEGORY_1] <> ""),
+    #"Filtered Rows2" = Table.SelectRows(#"Filtered Rows1", each ([CATEGORY_2] <> null and [CATEGORY_2] <> "")),
+    #"Trimmed Text1" = Table.TransformColumns(#"Filtered Rows2",{{"CATEGORY_1", Text.Trim, type text}, {"CATEGORY_2", Text.Trim, type text}, {"CATEGORY_3", Text.Trim, type text}, {"CATEGORY_4", Text.Trim, type text}, {"MANUFACTURER", Text.Trim, type text}, {"BRAND", Text.Trim, type text}})
+in
+    #"Trimmed Text1"
