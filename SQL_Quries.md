@@ -69,14 +69,14 @@ WITH Generations AS (
             WHEN DATEDIFF(YEAR, u.BIRTH_DATE, GETDATE()) BETWEEN 25 AND 39 THEN 'Millennials'
             WHEN DATEDIFF(YEAR, u.BIRTH_DATE, GETDATE()) BETWEEN 40 AND 54 THEN 'Gen_X'
             WHEN DATEDIFF(YEAR, u.BIRTH_DATE, GETDATE()) >= 55 THEN 'Boomers'
-			ELSE 'Unknown'  
+            ELSE 'Unknown'  
         END AS Generation
     FROM dbo.users_cleaned AS u
 ),
 Category_Sales AS (
     SELECT
         g.Generation,
-		-- Sum of sales for all categories among generations
+        -- Sum of sales for all categories among generations
         SUM(t.FINAL_SALE)   AS Total_Sales,   
         -- Sum of Health_Wellness category sales among generations
 		SUM(
