@@ -21,5 +21,7 @@ WHERE DATEDIFF(YEAR, u.BIRTH_DATE, GETDATE()) >= 21
 GROUP BY p.BRAND
 ORDER BY Receipts_Scanned DESC;
 
-** ## 2. Top 5 Brands by Receipts Scanned (Age ≥ 21) **
+---
+## 2. ## 1. Top 5 Brands by Receipts Scanned (Age ≥ 21)
+
 
